@@ -1,0 +1,25 @@
+con - Simple ssh connection manager
+Version 0.4
+
+Copyright (c) 2010, Errol Byrd <errolbyrd@gmail.com>
+Copyright (c) 2013, Erl Cash <erl@codeward.org>
+
+This is updated version of original con utility found on AUR (https://aur.archlinux.org/packages/con/?setlang=cs).
+Original work is no longer updated so this fork fixes bugs in previous version and makes the output of the utility more readable.
+
+The utility should serve those who have large list of ssh servers and are tired of creating new connection alias for every single one of them.
+
+Usage:
+	con add <alias> <address>,[port],<username>
+	con del <alias>
+	con <alias> [username]
+
+Example:
+	# Add new server labeled by alias into server list
+	con add my_work_station 127.0.0.1,22,root
+	
+	# Connect to server labeled by alias
+	con my_work_station 
+
+	# Remove the server from the list
+	con del my_work_station 
