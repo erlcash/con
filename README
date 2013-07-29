@@ -2,7 +2,7 @@ con - simple ssh connection manager
 Version 0.5
 
 Copyright (c) 2010, Errol Byrd <errolbyrd@gmail.com>
-Copyright (c) 2013, Erl Cash <erl@codeward.org>
+Copyright (c) 2013, Erl Cash <erlcash@codeward.org>
 
 1. Description
 This is updated version of original con utility found on AUR (https://aur.archlinux.org/packages/con/?setlang=cs).
