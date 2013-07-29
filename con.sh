@@ -1,23 +1,10 @@
 #!/bin/bash
 
-# con - simple ssh connection manager.
-# Copyright (C) 2013 Erl Cash <erlcash@codeward.org>
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-# MA 02110-1301, USA.
+# con - Simple ssh connection manager.
+# Copyright (c) 2010, Errol Byrd <errolbyrd@gmail.com>
+# Copyright (c) 2013, Erl Cash <erl@codeward.org>
 
-_VER="0.4"
+_VER="0.5"
 
 # Configuration
 HOST_FILE="$HOME/.con_tool_hosts"
@@ -85,7 +72,7 @@ cmd=$1
 if [ ! -f $HOST_FILE ]; then touch "$HOST_FILE"; fi
 
 if [ $# -eq 0 ]; then
-	echo -e "$p v$_VER\n\nUsage:\n\t$p <alias> [username]\n\t$p add <alias> <address>,[port],<username>\n\t$p del <alias>\n\nAliases:"
+	echo -e "$p v$_VER\n\nUsage:\n\t$p <alias> [username]\n\t$p add <alias> <username>@<address>[:port]\n\t$p del <alias>\n\nAliases:"
 	
 	cat  $HOST_FILE | while read fline;
 	do
@@ -100,20 +87,16 @@ case "$cmd" in
 # Add new alias
 	add )
 		alias=$2
-		data=($(echo $3 | awk -F "," '{ print $1" "$2" "$3 }'))
+		data=($(echo ${3/@/:} | awk -F ":" '{ print $2" "$3" "$1 }'))
 		
 		if [ -z "$alias" ]; then
 			echo "$p: alias is an empty string."
 			exit 1
 		fi
 		
-		if [ "$alias" == "add" ] || [ "$alias" == "del" ] || [ "$alias" == "cc" ]; then
+		if [ "$alias" == "add" ] || [ "$alias" == "del" ]; then
 			echo "$p: invalid alias name."
 			exit 1
-		fi
-		
-		if [ ${#data[@]} -lt 3 ]; then
-			data=("${data[0]}" "$SSH_PORT" "${data[1]}")
 		fi
 		
 		probe "$alias"
@@ -121,6 +104,15 @@ case "$cmd" in
 		if [ $? -eq 0 ]; then
 			echo "$p: alias '$alias' is already in use."
 			exit 1
+		fi
+		
+		if [ ${#data[@]} -lt 2 ]; then
+			echo "$p: invalid format of connection information."
+			exit 1
+		fi
+		
+		if [ ${#data[@]} -lt 3 ]; then
+			data=("${data[0]}" "$SSH_PORT" "${data[1]}")
 		fi
 		
 		echo "$alias$DATA_DELIM${data[0]}$DATA_DELIM${data[1]}$DATA_DELIM${data[2]}" >> $HOST_FILE
