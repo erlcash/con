@@ -11,13 +11,13 @@ Original work is no longer updated so this fork fixes bugs in previous version a
 The utility should serve those who have large list of ssh servers and are tired of creating new connection alias for every single one of them.
 
 2. Usage
-	con add <alias> <address>,[port],<username>
-	con del <alias>
 	con <alias> [username]
+	con add <alias> <username>@<address>[:port]
+	con del <alias>
 
 3. Examples
 	# Add new server labeled by alias into server list
-	con add my_work_station 127.0.0.1,22,root
+	con add my_work_station root@127.0.0.1:666
 	
 	# Connect to server labeled by alias
 	con my_work_station 
