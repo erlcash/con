@@ -26,7 +26,7 @@ if [ ! $UID -eq 0 ]; then
 fi
 
 if [ ! -f "$CON_BIN" ]; then
-	echo "$0: enc '$ENC_BIN' not found."
+	echo "$0: enc '$CON_BIN' not found."
 	exit 1
 fi
 

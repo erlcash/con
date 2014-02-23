@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-_VER="0.5"
+_VER="0.5-1"
 
 # Configuration
 HOST_FILE="$HOME/.con_tool_hosts"
@@ -130,7 +130,6 @@ case "$cmd" in
 		fi
 		
 		echo "$alias$DATA_DELIM${data[0]}$DATA_DELIM${data[1]}$DATA_DELIM${data[2]}" >> $HOST_FILE
-		echo "$p: new alias '$alias' added."
 		;;
 # Delete alias
 	del )
@@ -146,7 +145,6 @@ case "$cmd" in
 		if [ $? -eq 0 ]; then
 			cat $HOST_FILE | sed '/^'$alias$DATA_DELIM'/d' > /tmp/.con.$$
 			mv /tmp/.con.$$ $HOST_FILE
-			echo "$p: alias '$alias' deleted."
 		else
 			echo "$p: unknown alias '$alias'."
 		fi
